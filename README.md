@@ -1,7 +1,7 @@
-# :triangular_ruler: LiteCAD
+# :triangular_ruler: OpenCAD
 
 <p>
-Simple CAD for designing 2D/3D parts and assemblies  :straight_ruler:
+CAD based on OpenCASCADE for designing 2D/3D parts and assemblies  :straight_ruler:
 </p><p>
 
 **Supported formats:** <a href="https://en.wikipedia.org/wiki/Boundary_representation">BREP</a> (Step, IGES), STL, Dxf
@@ -27,6 +27,7 @@ Draft editor:
 
 
 ## References:
+* https://www.opencascade.com/
 * Original Triangle code by Jonathan Richard Shewchuk, http://www.cs.cmu.edu/~quake/triangle.html
 * Triangle.NET code by Christian Woltering, http://triangle.codeplex.com/
 * polybooljs (https://github.com/velipso/polybooljs)
