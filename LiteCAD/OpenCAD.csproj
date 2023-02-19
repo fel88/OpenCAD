@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C61F402E-9B03-435A-A819-B3E277E53514}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>LiteCAD</RootNamespace>
-    <AssemblyName>LiteCAD</AssemblyName>
+    <RootNamespace>OpenCAD</RootNamespace>
+    <AssemblyName>OpenCAD</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -173,6 +173,7 @@
     </Compile>
     <Compile Include="IntersectInfo.cs" />
     <Compile Include="Intersection.cs" />
+    <Compile Include="IPropEditor.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="LiteCADScene.cs" />
     <Compile Include="MeshModel.cs" />
@@ -328,9 +329,9 @@
       <Project>{9b062971-a88e-4a3d-b3c9-12b78d15fa66}</Project>
       <Name>clipperLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LiteCADLib\LiteCAD.Lib.csproj">
+    <ProjectReference Include="..\LiteCADLib\OpenCAD.Lib.csproj">
       <Project>{05537b4a-4a48-403c-a61b-9eca33ef559b}</Project>
-      <Name>LiteCAD.Lib</Name>
+      <Name>OpenCAD.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Triangle\Triangle.csproj">
       <Project>{5a12c4a1-bc07-4f18-82b5-b08e150025df}</Project>

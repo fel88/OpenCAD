@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using LiteCAD.Common;
+using OpenCAD;
 using OpenTK;
 
 namespace LiteCAD.PropEditors

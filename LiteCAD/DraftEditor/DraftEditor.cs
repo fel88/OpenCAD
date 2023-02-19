@@ -16,6 +16,7 @@ using LiteCAD.PropEditors;
 using ClipperLib;
 using System.Globalization;
 using LiteCAD.Dialogs;
+using OpenCAD;
 
 namespace LiteCAD.DraftEditor
 {

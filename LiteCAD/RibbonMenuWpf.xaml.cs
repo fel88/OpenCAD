@@ -3,6 +3,7 @@ using LiteCAD.BRep;
 using LiteCAD.Common;
 using LiteCAD.DraftEditor;
 using LiteCAD.Tools;
+using OpenCAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;

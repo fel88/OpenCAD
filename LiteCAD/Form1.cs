@@ -26,8 +26,9 @@ using System.Windows.Controls.Ribbon;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Xml.Linq;
+using LiteCAD;
 
-namespace LiteCAD
+namespace OpenCAD
 {
     public partial class Form1 : Form, IEditor, IMessageReporter
     {
@@ -2155,11 +2156,5 @@ namespace LiteCAD
     public enum EditModeEnum
     {
         Part, Draft, Assembly
-    }
-
-    public interface IPropEditor
-    {
-        void Init(object o);
-        object ReturnValue { get; }
     }
 }

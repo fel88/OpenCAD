@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LiteCAD")]
-[assembly: AssemblyDescription("CAD system for designing simple parts")]
+[assembly: AssemblyTitle("OpenCAD")]
+[assembly: AssemblyDescription("CAD system based on OpenCASCADE")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("https://github.com/fel88")]
-[assembly: AssemblyProduct("LiteCAD")]
+[assembly: AssemblyProduct("OpenCAD")]
 [assembly: AssemblyCopyright("Copyleft ©  2021-2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

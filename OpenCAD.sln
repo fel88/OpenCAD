@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30320.27
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clipperLib", "clipper\clipperLib.csproj", "{9B062971-A88E-4A3D-B3C9-12B78D15FA66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triangle", "Triangle\Triangle.csproj", "{5A12C4A1-BC07-4F18-82B5-B08E150025DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteCAD", "LiteCAD\LiteCAD.csproj", "{C61F402E-9B03-435A-A819-B3E277E53514}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCAD", "LiteCAD\OpenCAD.csproj", "{C61F402E-9B03-435A-A819-B3E277E53514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteCAD.Lib", "LiteCADLib\LiteCAD.Lib.csproj", "{05537B4A-4A48-403C-A61B-9ECA33EF559B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCAD.Lib", "LiteCADLib\OpenCAD.Lib.csproj", "{05537B4A-4A48-403C-A61B-9ECA33EF559B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Iges", "IxMilia.Iges\IxMilia.Iges.csproj", "{D8A1FAF5-4EB0-41AF-847E-4300E5B49FFF}"
 EndProject

@@ -7,8 +7,8 @@
     <ProjectGuid>{05537B4A-4A48-403C-A61B-9ECA33EF559B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LiteCADLib</RootNamespace>
-    <AssemblyName>LiteCADLib</AssemblyName>
+    <RootNamespace>OpenCADLib</RootNamespace>
+    <AssemblyName>OpenCADLib</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

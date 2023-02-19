@@ -12,6 +12,7 @@ using BREP.BRep;
 using BREP.BRep.Curves;
 using BREP.BRep.Faces;
 using BREP.BRep.Surfaces;
+using OpenCAD;
 
 namespace LiteCAD
 {
