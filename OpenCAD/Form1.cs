@@ -28,6 +28,7 @@ using System.Windows.Forms.Integration;
 using System.Xml.Linq;
 using LiteCAD;
 
+
 namespace OpenCAD
 {
     public partial class Form1 : Form, IEditor, IMessageReporter
@@ -37,6 +38,11 @@ namespace OpenCAD
             //add new commands 
             PlaneHelper.Commands.Add(new CutByPlaneCommand());
             VisualPart.SelectManager = new DefaultSelectManager();
+
+            OpenCASCADE.OCCTProxy proxy = new OpenCASCADE.OCCTProxy();
+            proxy.InitOCCTProxy();
+            var obj1 = proxy.AddWireDraft(40);
+            var l = proxy.IteratePoly(obj1);
         }
 
         public class CutByPlaneCommand : ICommand

@@ -329,9 +329,13 @@
       <Project>{9b062971-a88e-4a3d-b3c9-12b78d15fa66}</Project>
       <Name>clipperLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LiteCADLib\OpenCAD.Lib.csproj">
+    <ProjectReference Include="..\OpenCADLib\OpenCAD.Lib.csproj">
       <Project>{05537b4a-4a48-403c-a61b-9eca33ef559b}</Project>
       <Name>OpenCAD.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenCascade.Lib\OpenCascade.Lib.vcxproj">
+      <Project>{1fbfc773-018b-4818-b4b4-96b6c78514b5}</Project>
+      <Name>OpenCascade.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Triangle\Triangle.csproj">
       <Project>{5a12c4a1-bc07-4f18-82b5-b08e150025df}</Project>
