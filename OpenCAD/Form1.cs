@@ -27,7 +27,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Xml.Linq;
 using LiteCAD;
-
+using SkiaSharp;
+using System.Security.Cryptography;
 
 namespace OpenCAD
 {
@@ -39,12 +40,13 @@ namespace OpenCAD
             PlaneHelper.Commands.Add(new CutByPlaneCommand());
             VisualPart.SelectManager = new DefaultSelectManager();
 
-            OpenCASCADE.OCCTProxy proxy = new OpenCASCADE.OCCTProxy();
+            proxy = new OpenCASCADE.OCCTProxy();
             proxy.InitOCCTProxy();
-            var obj1 = proxy.AddWireDraft(40);
-            var l = proxy.IteratePoly(obj1);
+            //var obj1 = proxy.AddWireDraft(40);
+            //   var l = proxy.IteratePoly(obj1);
         }
 
+        static OpenCASCADE.OCCTProxy proxy;
         public class CutByPlaneCommand : ICommand
         {
             public string Name => "cut by plane";
@@ -2156,6 +2158,42 @@ namespace OpenCAD
         public void Info(string text)
         {
             infoPanel.AddInfo(text);
+        }
+
+        private void brepAsMeshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "All BREP formats (*.stp;*.step;*.igs;*.iges)|*.stp;*.step;*.igs;*.iges|STEP files (*.stp;*.step)|*.stp;*.step|IGES files (*.igs;*.iges)|*.igs;*.iges|All files (*.*)|*.*";
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var pp = proxy.ImportStep(ofd.FileName);
+            //var obj1 = proxy.AddWireDraft(40);
+            var l = proxy.IteratePoly(pp);
+            MeshModel m = new MeshModel();
+            List<TriangleInfo> trs = new List<TriangleInfo>();
+            for (int i = 0; i < l.Count; i += 6)
+            {
+                List<OpenCASCADE.Vector3[]> vv = new List<OpenCASCADE.Vector3[]>();
+
+                for (int j = 0; j < 6; j += 2)
+                {
+                    vv.Add(new[] { l[i + j], l[i + j + 1] });
+                }
+                trs.Add(new TriangleInfo()
+                {
+                    Vertices = vv.Select(z => new VertexInfo()
+                    {
+                        Position = new Vector3d(z[0].X, z[0].Y, z[0].Z),
+                        Normal = new Vector3d(z[1].X, z[1].Y, z[1].Z)
+                    }).ToArray()
+                });
+            }
+            m.Nodes.Add(new MeshNode() { Triangles = trs.ToList() });
+            Parts.Add(m);
+            updateList();
         }
     }
 

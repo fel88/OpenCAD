@@ -159,6 +159,46 @@ public:
 		return ObjHandle();
 	}
 
+	ObjHandle ImportStepAndGetHandle(const TCollection_AsciiString& theFileName, AIS_InteractiveContext* ctx) {
+		STEPControl_Reader aReader;
+		IFSelect_ReturnStatus aStatus = aReader.ReadFile(theFileName.ToCString());
+		if (aStatus == IFSelect_RetDone) {
+			bool isFailsonly = false;
+			aReader.PrintCheckLoad(isFailsonly, IFSelect_ItemsByEntity);
+
+			int aNbRoot = aReader.NbRootsForTransfer();
+			aReader.PrintCheckTransfer(isFailsonly, IFSelect_ItemsByEntity);
+			for (Standard_Integer n = 1; n <= aNbRoot; n++) {
+				Standard_Boolean ok = aReader.TransferRoot(n);
+				int aNbShap = aReader.NbShapes();
+				if (aNbShap > 0) {
+					for (int i = 1; i <= aNbShap; i++) {
+						TopoDS_Shape aShape = aReader.Shape(i);
+						auto ais = new AIS_Shape(aShape);
+						//ctx->Display(ais, Standard_False);
+						return GetHandle(*ais);
+
+					}
+					ctx->UpdateCurrentViewer();			
+				}
+			}
+		}
+		else {
+			return ObjHandle();
+		}
+		return ObjHandle();
+	}
+
+	ObjHandle GetHandle(const AIS_Shape& ais_shape) {
+		const TopoDS_Shape& shape = ais_shape.Shape();
+		TopoDS_TShape* ptshape = shape.TShape().get();
+		ObjHandle h;
+		h.handleF = (unsigned __int64)(&shape);
+		h.handleT = (unsigned __int64)ptshape;
+		h.handle = (unsigned __int64)(&ais_shape);
+		return h;
+	}
+
 	std::vector<double> IteratePoly(ObjHandle h) {
 		auto obj = getObject(h);
 		auto shape = getShapeFromObject(h);
@@ -192,6 +232,7 @@ public:
 			TopLoc_Location aLocation;
 
 			Handle(Poly_Triangulation) aTr = BRep_Tool::Triangulation(aFace, aLocation);
+			aTr->ComputeNormals();
 
 			if (!aTr.IsNull())
 			{
@@ -200,9 +241,14 @@ public:
 				//const TColgp_Array1OfPnt2d& uvNodes = aTr->UVNodes();
 
 				TColgp_Array1OfPnt aPoints(1, aTr->NbNodes());
-				for (Standard_Integer i = 1; i < aTr->NbNodes() + 1; i++)
-					aPoints(i) = aTr->Node(i).Transformed(aLocation);
+				NCollection_Array1<gp_Dir> aNormals(1, aTr->NbNodes());
 
+				for (Standard_Integer i = 1; i < aTr->NbNodes() + 1; i++) {
+					aPoints(i) = aTr->Node(i).Transformed(aLocation);
+					if (aTr->HasNormals())
+						aNormals(i) = aTr->Normal(i).Transformed(aLocation);
+
+				}
 
 				Standard_Integer nnn = aTr->NbTriangles();
 				Standard_Integer nt, n1, n2, n3;
@@ -212,8 +258,11 @@ public:
 
 					triangles(nt).Get(n1, n2, n3);
 					gp_Pnt aPnt1 = aPoints(n1);
+					auto aNrm1 = aNormals(n1);
 					gp_Pnt aPnt2 = aPoints(n2);
+					auto aNrm2 = aNormals(n2);
 					gp_Pnt aPnt3 = aPoints(n3);
+					auto aNrm3 = aNormals(n3);
 
 					/*gp_Pnt2d uv1 = uvNodes(n1);
 					gp_Pnt2d uv2 = uvNodes(n2);
@@ -227,14 +276,26 @@ public:
 						ret.push_back(aPnt1.Y());
 						ret.push_back(aPnt1.Z());
 
+						ret.push_back(aNrm1.X());
+						ret.push_back(aNrm1.Y());
+						ret.push_back(aNrm1.Z());
+
 						ret.push_back(aPnt2.X());
 						ret.push_back(aPnt2.Y());
 						ret.push_back(aPnt2.Z());
+
+						ret.push_back(aNrm2.X());
+						ret.push_back(aNrm2.Y());
+						ret.push_back(aNrm2.Z());
 
 						ret.push_back(aPnt3.X());
 						ret.push_back(aPnt3.Y());
 						ret.push_back(aPnt3.Z());
 
+
+						ret.push_back(aNrm3.X());
+						ret.push_back(aNrm3.Y());
+						ret.push_back(aNrm3.Z());
 						/*p1 = QVector3D(aPnt1.X(), aPnt1.Y(), aPnt1.Z());
 						p2 = QVector3D(aPnt2.X(), aPnt2.Y(), aPnt2.Z());
 						p3 = QVector3D(aPnt3.X(), aPnt3.Y(), aPnt3.Z());*/
@@ -248,13 +309,25 @@ public:
 						ret.push_back(aPnt3.Y());
 						ret.push_back(aPnt3.Z());
 
+						ret.push_back(aNrm3.X());
+						ret.push_back(aNrm3.Y());
+						ret.push_back(aNrm3.Z());
+
 						ret.push_back(aPnt2.X());
 						ret.push_back(aPnt2.Y());
 						ret.push_back(aPnt2.Z());
 
+						ret.push_back(aNrm2.X());
+						ret.push_back(aNrm2.Y());
+						ret.push_back(aNrm2.Z());
+
 						ret.push_back(aPnt1.X());
 						ret.push_back(aPnt1.Y());
 						ret.push_back(aPnt1.Z());
+						
+						ret.push_back(aNrm1.X());
+						ret.push_back(aNrm1.Y());
+						ret.push_back(aNrm1.Z());
 					}
 
 
@@ -448,6 +521,14 @@ namespace OpenCASCADE {
 			myView()->MustBeResized();
 			SetDefaultDrawerParams();
 			return true;
+		}
+
+		ManagedObjHandle^ ImportStep(String^ theFileName) {
+			ManagedObjHandle^ hh = gcnew ManagedObjHandle();
+
+			auto r = impl->ImportStepAndGetHandle(toAsciiString(theFileName), myAISContext().get());
+			hh->FromObjHandle(r);
+			return hh;
 		}
 
 		ManagedObjHandle^ GetSelectedObject() {
@@ -1184,11 +1265,11 @@ namespace OpenCASCADE {
 		}
 		//#include <msclr/marshal_cppstd.h>
 
-		bool ImportStep(System::String^ str)
+		/*bool ImportStep(System::String^ str)
 		{
 			const TCollection_AsciiString aFilename = toAsciiString(str);
 			return ImportStep(aFilename);
-		}
+		}*/
 
 		bool ImportIges(System::String^ str)
 		{
